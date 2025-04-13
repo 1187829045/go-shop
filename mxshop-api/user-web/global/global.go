@@ -12,9 +12,9 @@ var (
 	// Trans 是一个全局的翻译器实例，用于处理多语言翻译。
 	Trans ut.Translator
 
-	ServerConfig *config.ServerConfig = &config.ServerConfig{}
+	ServerConfig = &config.ServerConfig{}
 
-	NacosConfig *config.NacosConfig = &config.NacosConfig{}
+	NacosConfig = &config.NacosConfig{}
 
 	UserSrvClient proto.UserClient
 )

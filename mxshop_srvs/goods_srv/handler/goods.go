@@ -49,6 +49,7 @@ func ModelToResponse(goods model.Goods) proto.GoodsInfoResponse {
 		},
 	}
 }
+
 func (s *GoodsServer) GoodsList(ctx context.Context, req *proto.GoodsFilterRequest) (*proto.GoodsListResponse, error) {
 	//使用es的目的是搜索出商品的id来，通过id拿到具体的字段信息是通过mysql来完成
 	//我们使用es是用来做搜索的， 不应该将所有的mysql字段全部在es中保存一份

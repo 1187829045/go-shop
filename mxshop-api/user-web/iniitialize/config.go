@@ -20,28 +20,28 @@ func GetEnvInfo(env string) bool {
 
 // InitConfig 初始化配置文件
 func InitConfig() {
-	debug := GetEnvInfo("shop_DEBUG")                                       // 检查是否处于调试模式
-	configFilePrefix := "config"                                            // 配置文件前缀
-	configFileName := fmt.Sprintf("user-web/%s-pro.yaml", configFilePrefix) // 生产环境配置文件路径
+	debug := GetEnvInfo("shop_DEBUG")
+	configFilePrefix := "config"
+	configFileName := fmt.Sprintf("user-web/%s-pro.yaml", configFilePrefix)
 	if debug {
-		configFileName = fmt.Sprintf("user-web/%s-debug.yaml", configFilePrefix) // 调试环境配置文件路径
+		configFileName = fmt.Sprintf("user-web/%s-debug.yaml", configFilePrefix)
 	}
 
 	v := viper.New()
-	v.SetConfigFile(configFileName)          // 设置配置文件路径
-	if err := v.ReadInConfig(); err != nil { // 读取配置文件
-		panic(err) // 如果读取配置文件失败，则抛出错误
-	}
-	// 这个对象如何在其他文件中使用 - 全局变量
-	if err := v.Unmarshal(global.NacosConfig); err != nil { // 将配置文件解析到全局变量 NacosConfig
+	v.SetConfigFile(configFileName)
+	if err := v.ReadInConfig(); err != nil {
 		panic(err)
 	}
-	zap.S().Infof("配置信息: &v", global.NacosConfig) // 打印配置信息
+	// 这个对象如何在其他文件中使用 - 全局变量
+	if err := v.Unmarshal(global.NacosConfig); err != nil {
+		panic(err)
+	}
+	zap.S().Infof("配置信息: &v", global.NacosConfig)
 	// 从 nacos 中读取配置信息
 	sc := []constant.ServerConfig{
 		{
-			IpAddr: global.NacosConfig.Host, // Nacos 服务器地址
-			Port:   global.NacosConfig.Port, // Nacos 服务器端口
+			IpAddr: global.NacosConfig.Host,
+			Port:   global.NacosConfig.Port,
 		},
 	}
 
@@ -73,9 +73,9 @@ func InitConfig() {
 	}
 
 	// 想要将一个 JSON 字符串转换成 struct，需要设置这个 struct 的 tag
-	err = json.Unmarshal([]byte(content), &global.ServerConfig) // 解析 JSON 配置信息到 ServerConfig 结构体
+	err = json.Unmarshal([]byte(content), &global.ServerConfig)
 	if err != nil {
-		zap.S().Fatalf("读取 nacos 配置失败： %s", err.Error()) // 如果解析失败，记录错误日志并终止程序
+		zap.S().Fatalf("读取 nacos 配置失败： %s", err.Error())
 	}
-	fmt.Println(&global.ServerConfig) // 打印配置信息
+	fmt.Println(&global.ServerConfig)
 }

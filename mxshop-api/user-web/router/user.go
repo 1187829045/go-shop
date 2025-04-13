@@ -6,7 +6,7 @@ import (
 	"shop-api/user-web/middlewares" // 导入中间件包
 )
 
-// 初始化用户相关的路由
+// InitUserRouter 初始化用户相关的路由
 func InitUserRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("user") // 在传入的 RouterGroup 上创建一个 "user" 的路由组
 	{
@@ -19,7 +19,5 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		// POST 请求：用户注册，处理函数为 api.Register
 		UserRouter.POST("register", api.Register)
 
-		//UserRouter.GET("detail", middlewares.JWTAuth(), api.GetUserDetail)
-		//UserRouter.PATCH("update", middlewares.JWTAuth(), api.UpdateUser)
 	}
 }

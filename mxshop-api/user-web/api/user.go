@@ -71,7 +71,7 @@ func HandleGrpcErrorToHttp(err error, c *gin.Context) {
 func HandleValidatorError(c *gin.Context, err error) {
 	//validator 是一个常用的结构体字段验证库，用于验证结构体中字段的值是否符合特定的规则或约束条件。
 	//它能够有效地帮助开发者在处理用户输入、表单提交等场景中，对数据进行验证，以确保数据的合法性和完整性。
-	//alidator.ValidationErrors 并不是一个函数，而是一个类型。它用于表示验证失败时返回的详细错误信息，通常在结构体字段验证失败时返回。
+	//validator.ValidationErrors 并不是一个函数，而是一个类型。它用于表示验证失败时返回的详细错误信息，通常在结构体字段验证失败时返回。
 	// 如果绑定或验证失败，处理错误
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok {
@@ -91,7 +91,7 @@ func GetUserList(ctx *gin.Context) {
 	// 拨号连接用户 gRPC 服务器 跨域的问题-后端解决
 	claims, _ := ctx.Get("claims")               // 从上下文中获取 "claims" 信息
 	currentUser := claims.(*models.CustomClaims) // 将 "claims" 转换为自定义的用户声明类型
-	zap.S().Infof("访问用户：%d", currentUser.ID) // 记录访问用户的 ID 信息
+	zap.S().Infof("访问用户：%d", currentUser.ID)     // 记录访问用户的 ID 信息
 
 	// 请求用户列表的参数
 	pn := ctx.DefaultQuery("pn", "0")        // 获取查询参数 "pn"，如果未提供则默认值为 "0"
@@ -106,11 +106,11 @@ func GetUserList(ctx *gin.Context) {
 	})
 	if err != nil {
 		zap.S().Errorw("[GetUserList]查询【用户列表】失败") // 记录查询用户列表失败的错误信息
-		HandleGrpcErrorToHttp(err, ctx)                   // 处理 gRPC 错误
-		return                                            // 返回，终止函数执行
+		HandleGrpcErrorToHttp(err, ctx)           // 处理 gRPC 错误
+		return                                    // 返回，终止函数执行
 	}
 
-	zap.S().Debug("获取用户列表页")  // 记录获取用户列表页的调试信息
+	zap.S().Debug("获取用户列表页")         // 记录获取用户列表页的调试信息
 	result := make([]interface{}, 0) // 创建一个空的结果列表
 
 	// 遍历用户列表并构造结果
